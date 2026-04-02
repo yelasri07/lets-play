@@ -1,9 +1,9 @@
 package lets_play.auth;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,8 +16,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody AuthDTO.RegisterInput userData) {
-        this.authService.createUser(userData);
+    public AuthDTO.RegisterOutput register(@RequestBody AuthDTO.RegisterInput userData) {
+        return this.authService.createUser(userData);
     }
 
 }
