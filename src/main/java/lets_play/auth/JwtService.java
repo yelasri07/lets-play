@@ -19,11 +19,11 @@ public class JwtService {
 
     public String generateToken(User user) {
         Map<String, String> claims = Map.of(
-                "name", user.getName());
+                "id", user.getId());
 
         return Jwts.builder()
                 .claims(claims)
-                .subject(user.getId())
+                .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(getSigningKey())
