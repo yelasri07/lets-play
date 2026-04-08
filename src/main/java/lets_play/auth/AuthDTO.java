@@ -14,15 +14,13 @@ public class AuthDTO {
             @NotBlank(message = "User email cannot be empty")
             @Email(message = "Please provide a valid email")
             String email,
-            @NotBlank(message = "User password cannot be empty")
             @Size(min = 8, max = 50, message = "User password must be between 8 and 50 character")
             String password) {
 
         public RegisterInput {
-                if (name != null && email != null && password != null) {
+                if (name != null && email != null) {
                         name = name.trim();
                         email = email.trim();
-                        password = password.trim();
                 }
         }
     }
