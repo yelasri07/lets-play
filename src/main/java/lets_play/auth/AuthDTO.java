@@ -1,13 +1,30 @@
 package lets_play.auth;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 public class AuthDTO {
 
     public static record RegisterInput(
+            @NotBlank(message = "User name cannot be empty")
+            @Size(min = 3, max = 20, message = "User name must be between 3 and 20 character")
             String name,
+            @NotBlank(message = "User email cannot be empty")
+            @Email(message = "Please provide a valid email")
             String email,
+            @NotBlank(message = "User password cannot be empty")
+            @Size(min = 8, max = 50, message = "User password must be between 8 and 50 character")
             String password) {
+
+        public RegisterInput {
+                if (name != null && email != null && password != null) {
+                        name = name.trim();
+                        email = email.trim();
+                        password = password.trim();
+                }
+        }
     }
 
     @Builder

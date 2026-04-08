@@ -1,7 +1,6 @@
 package lets_play.exception;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -18,5 +17,5 @@ public class ErrorResponse {
     private final String error;
     private final String message;
     private final String path;
-    private final Map<String, List<String>> validationErrors;
+    private final Map<String, String> validationErrors;
 }
