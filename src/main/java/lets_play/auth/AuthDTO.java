@@ -36,4 +36,19 @@ public class AuthDTO {
 
     }
 
+    @Builder
+    public static record LoginInput(
+        String name,
+        String password
+    ) {
+    }
+
+    @Builder
+    public static record LoginOutput(
+        String id,
+        String name,
+        String email,
+        String token) {
+    }
+
 }

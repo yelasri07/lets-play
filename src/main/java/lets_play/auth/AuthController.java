@@ -22,10 +22,10 @@ public class AuthController {
         return this.authService.createUser(userData);
     }
 
-    // @PostMapping("/login")
-    // public String login() {
-        
-    // }
+    @PostMapping("/login")
+    public AuthDTO.LoginOutput login(@RequestBody AuthDTO.LoginInput userData) {
+        return this.authService.authenticate(userData);
+    }
     
 
 }
