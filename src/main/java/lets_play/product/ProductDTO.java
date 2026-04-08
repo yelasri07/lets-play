@@ -3,6 +3,7 @@ package lets_play.product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
 public class ProductDTO {
 
@@ -22,7 +23,15 @@ public class ProductDTO {
                 description = description.trim();
             }
         }
-
     }
+
+    @Builder
+    public static record ProductOutput(
+        String id,
+        String name,
+        String description,
+        Double price,
+        String userId
+    ) {}
 
 }
