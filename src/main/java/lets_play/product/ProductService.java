@@ -14,7 +14,7 @@ public class ProductService {
     }
 
     public List<ProductDTO.ProductOutput> getProducts() {
-        return null;
+        return this.productRepository.findProducts();
     }
 
     public ProductDTO.ProductOutput createProduct(ProductDTO.ProductInput productData, String userId) {
