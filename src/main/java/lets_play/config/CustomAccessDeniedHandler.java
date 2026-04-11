@@ -16,7 +16,11 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied!");
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.getWriter().write("""
+                    {"error": "Forbidden", "message": "Access denied!"}
+                """);
     }
 
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -160,5 +161,22 @@ public class GlobalExceptionHandler {
                                 .build();
 
                 return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(AuthorizationDeniedException.class)
+        public ResponseEntity<ErrorResponse> AuthorizationDeniedException(
+                        AuthorizationDeniedException ex, WebRequest request) {
+
+                log.error("Unhandled exception: {}", ex.getMessage());
+
+                ErrorResponse error = ErrorResponse.builder()
+                                .timestamp(Instant.now())
+                                .status(HttpStatus.FORBIDDEN.value())
+                                .error("Forbidden")
+                                .message(ex.getMessage())
+                                .path(request.getDescription(false).replace("uri=", ""))
+                                .build();
+
+                return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
         }
 }
