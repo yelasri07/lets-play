@@ -76,4 +76,19 @@ public class AuthService {
         }
     }
 
+    public void createAdmin(String name, String email, String password) {
+        if (this.userRepository.existsByName(name)) {
+            return;
+        }
+
+        User admin = User.builder()
+                .name(name)
+                .email(email)
+                .password(this.passwordEncoder.encode(password))
+                .role("ADMIN")
+                .build();
+
+        this.userRepository.insert(admin);
+    }
+
 }
