@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -172,7 +173,24 @@ public class GlobalExceptionHandler {
                 ErrorResponse error = ErrorResponse.builder()
                                 .timestamp(Instant.now())
                                 .status(HttpStatus.FORBIDDEN.value())
-                                .error("Forbidden")
+                                .error("Access denied")
+                                .message(ex.getMessage())
+                                .path(request.getDescription(false).replace("uri=", ""))
+                                .build();
+
+                return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+        }
+
+        @ExceptionHandler(AccessDeniedException.class)
+        public ResponseEntity<ErrorResponse> AccessDeniedException(
+                        AccessDeniedException ex, WebRequest request) {
+
+                log.error("Unhandled exception: {}", ex.getMessage());
+
+                ErrorResponse error = ErrorResponse.builder()
+                                .timestamp(Instant.now())
+                                .status(HttpStatus.FORBIDDEN.value())
+                                .error("Access denied")
                                 .message(ex.getMessage())
                                 .path(request.getDescription(false).replace("uri=", ""))
                                 .build();

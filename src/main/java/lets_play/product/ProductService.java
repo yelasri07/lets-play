@@ -1,8 +1,13 @@
 package lets_play.product;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+
+import lets_play.exception.NotFoundException;
+import lets_play.user.User;
 
 @Service
 public class ProductService {
@@ -34,6 +39,21 @@ public class ProductService {
                 .price(savedProduct.getPrice())
                 .userId(savedProduct.getUserId())
                 .build();
+    }
+
+    public Map<String, String> deleteProduct(String productId, boolean isAdmin, User user) {
+        Product product = this.productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Whoops! product not found"));
+
+        if (!isAdmin && !product.getUserId().equals(user.getId())) {
+            throw new AccessDeniedException("You can only delete your own products");
+        }
+
+        this.productRepository.delete(product);
+        return Map.of(
+            "id", product.getId(),
+            "message", "Product deleted successfully"
+        );
     }
 
 }
