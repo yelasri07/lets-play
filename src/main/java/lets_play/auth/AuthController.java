@@ -21,12 +21,12 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public AuthDTO.RegisterOutput register(@Valid @RequestBody AuthDTO.RegisterInput userData) {
+    public AuthDTO.AuthOutput register(@Valid @RequestBody AuthDTO.RegisterInput userData) {
         return this.authService.createUser(userData);
     }
 
     @PostMapping("/login")
-    public AuthDTO.LoginOutput login(@RequestBody AuthDTO.LoginInput userData) {
+    public AuthDTO.AuthOutput login(@RequestBody AuthDTO.LoginInput userData) {
         return this.authService.authenticate(userData);
     }
     

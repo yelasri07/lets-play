@@ -28,7 +28,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public AuthDTO.RegisterOutput createUser(AuthDTO.RegisterInput userData) {
+    public AuthDTO.AuthOutput createUser(AuthDTO.RegisterInput userData) {
         if (this.userRepository.existsByName(userData.name())) {
             throw new ConflictException("The user name already exists, please choose another name.");
         }
@@ -47,15 +47,16 @@ public class AuthService {
         User newUser = this.userRepository.insert(user);
         String token = this.jwtService.generateToken(newUser);
 
-        return AuthDTO.RegisterOutput.builder()
+        return AuthDTO.AuthOutput.builder()
                 .id(newUser.getId())
                 .name(newUser.getName())
                 .email(newUser.getEmail())
+                .role(user.getRole())
                 .token(token)
                 .build();
     }
 
-    public AuthDTO.LoginOutput authenticate(AuthDTO.LoginInput userData) {
+    public AuthDTO.AuthOutput authenticate(AuthDTO.LoginInput userData) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -65,10 +66,11 @@ public class AuthService {
             var user = (User) authentication.getPrincipal();
             var jwt = jwtService.generateToken(user);
 
-            return AuthDTO.LoginOutput.builder()
+            return AuthDTO.AuthOutput.builder()
                     .id(user.getId())
                     .name(user.getName())
                     .email(user.getEmail())
+                    .role(user.getRole())
                     .token(jwt)
                     .build();
         } catch (AuthenticationException e) {

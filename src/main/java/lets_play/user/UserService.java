@@ -1,5 +1,7 @@
 package lets_play.user;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +22,10 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
         return user;
+    }
+
+    public List<UserDTO.UserOutput> getUsers() {
+        return this.userRepository.findAllUsers();
     }
 
 }

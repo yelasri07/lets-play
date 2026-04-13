@@ -26,10 +26,11 @@ public class AuthDTO {
     }
 
     @Builder
-    public static record RegisterOutput(
+    public static record AuthOutput(
             String id,
             String name,
             String email,
+            String role,
             String token) {
 
     }
@@ -39,14 +40,6 @@ public class AuthDTO {
         String name,
         String password
     ) {
-    }
-
-    @Builder
-    public static record LoginOutput(
-        String id,
-        String name,
-        String email,
-        String token) {
     }
 
 }
