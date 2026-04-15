@@ -3,6 +3,7 @@ package lets_play.product;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +23,8 @@ import lets_play.user.User;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    private ProductService productService;
 
     @GetMapping
     public List<ProductDTO.ProductOutput> getAll() {
@@ -41,9 +39,11 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") String productId, @AuthenticationPrincipal User user) {
+    public ProductDTO.ProductOutput update(@PathVariable("id") String productId,
+            @Valid @RequestBody ProductDTO.ProductInput productData,
+            @AuthenticationPrincipal User user) {
         boolean isAdmin = user.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
-        System.out.println(isAdmin);
+        return this.productService.updateProduct(productId, productData, isAdmin, user);
     }
 
     @DeleteMapping("/{id}")

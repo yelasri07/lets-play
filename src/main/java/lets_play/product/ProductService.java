@@ -51,9 +51,32 @@ public class ProductService {
 
         this.productRepository.delete(product);
         return Map.of(
-            "id", product.getId(),
-            "message", "Product deleted successfully"
-        );
+                "id", product.getId(),
+                "message", "Product deleted successfully");
+    }
+
+    public ProductDTO.ProductOutput updateProduct(String productId, ProductDTO.ProductInput productData,
+            boolean isAdmin, User user) {
+        Product product = this.productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Whoops! product not found"));
+
+        if (!isAdmin && !product.getUserId().equals(user.getId())) {
+            throw new AccessDeniedException("You can only update your own products");
+        }
+
+        product.setName(productData.name());
+        product.setDescription(productData.description());
+        product.setPrice(productData.price());
+
+        Product updatedProduct = this.productRepository.save(product);
+
+        return ProductDTO.ProductOutput.builder()
+                .id(updatedProduct.getId())
+                .name(updatedProduct.getName())
+                .description(updatedProduct.getDescription())
+                .price(updatedProduct.getPrice())
+                .userId(updatedProduct.getUserId())
+                .build();
     }
 
 }
