@@ -13,15 +13,12 @@ public class UserDTO {
         String name,
         @NotBlank(message = "User email cannot be empty")
         @Email(message = "Please provide a valid email")
-        String email,
-        @NotBlank(message = "User role cannot be empty")
-        String role
+        String email
     ) {
         public UserInput {
-            if (name != null && email != null && role != null) {
+            if (name != null && email != null) {
                 name = name.trim();
                 email = email.trim();
-                role = role.trim();
             }
         }
     }

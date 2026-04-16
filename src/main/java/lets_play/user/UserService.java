@@ -33,16 +33,11 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDTO.UserOutput updateUser(String userId, UserDTO.UserInput userData) {
-        if (!userData.role().equals("USER") && !userData.role().equals("ADMIN")) {
-            throw new BadRequestException("User role should be 'USER' or 'ADMIN'");
-        }
-
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         user.setName(userData.name());
         user.setEmail(userData.email());
-        user.setRole(userData.role());
 
         User updatedUser = this.userRepository.save(user);
 
@@ -54,7 +49,11 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public Map<String, String> deleteUser(String userId) {
+    public Map<String, String> deleteUser(String userId, User currentUser) {
+        if (userId.equals(currentUser.getId())) {
+            throw new BadRequestException("Cannot delete yourself");
+        }
+
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
@@ -64,6 +63,6 @@ public class UserService implements UserDetailsService {
             "userId", user.getId(),
             "message", "User deleted successfully!" 
         );
-    } 
+    }
 
 }

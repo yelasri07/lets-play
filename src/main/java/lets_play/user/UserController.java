@@ -39,8 +39,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public Map<String, String> delete(@PathVariable("id") String userId) {
-        return this.userService.deleteUser(userId);
+    public Map<String, String> delete(@PathVariable("id") String userId, @AuthenticationPrincipal User user) {
+        return this.userService.deleteUser(userId, user);
     }
 
 }
