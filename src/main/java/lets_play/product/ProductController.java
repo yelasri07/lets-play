@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lets_play.user.User;
 
@@ -27,6 +28,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
+    @PermitAll
     public List<ProductDTO.ProductOutput> getAll() {
         return this.productService.getProducts();
     }

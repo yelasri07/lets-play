@@ -1,5 +1,7 @@
 package lets_play.product;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -31,7 +33,8 @@ public class ProductDTO {
         String name,
         String description,
         Double price,
-        String userId
+        @JsonProperty("userId")
+        String user_id
     ) {}
 
 }

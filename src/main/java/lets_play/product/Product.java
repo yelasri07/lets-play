@@ -2,6 +2,7 @@ package lets_play.product;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class Product {
     private String name;
     private String description;
     private Double price;
+    @Field(name = "user_id")
     private String userId;
 
 }

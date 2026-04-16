@@ -37,7 +37,7 @@ public class ProductService {
                 .name(savedProduct.getName())
                 .description(savedProduct.getDescription())
                 .price(savedProduct.getPrice())
-                .userId(savedProduct.getUserId())
+                .user_id(savedProduct.getUserId())
                 .build();
     }
 
@@ -52,6 +52,7 @@ public class ProductService {
         this.productRepository.delete(product);
         return Map.of(
                 "id", product.getId(),
+                "userId", product.getUserId(),
                 "message", "Product deleted successfully");
     }
 
@@ -75,7 +76,7 @@ public class ProductService {
                 .name(updatedProduct.getName())
                 .description(updatedProduct.getDescription())
                 .price(updatedProduct.getPrice())
-                .userId(updatedProduct.getUserId())
+                .user_id(updatedProduct.getUserId())
                 .build();
     }
 
